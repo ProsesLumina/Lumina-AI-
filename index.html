@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lumina</title>
+<meta name="description" content="Lumina: jaringan AI talent matching dan dampak sosial untuk mengurangi pengangguran di Indonesia. Prototipe website 3D interaktif.">
+<meta name="theme-color" content="#06070A">
+<meta property="og:title" content="Lumina · AI Talent Matching &amp; Social Impact Network">
+<meta property="og:description" content="Lumina: jaringan AI talent matching dan dampak sosial untuk mengurangi pengangguran di Indonesia. Prototipe website 3D interaktif.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2306070A'/%3E%3Cpath d='M32 10l4 18 18 4-18 4-4 18-4-18-18-4 18-4z' fill='%23D8B46A'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400;1,6..96,500&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<div id="loader" aria-hidden="true"><div class="w">LUMINA<small>MENYALAKAN 7.240 TITIK CAHAYA</small></div></div>
+<canvas id="gl" aria-label="Pemandangan 3D interaktif Lumina"></canvas>
+<div class="vignette"></div>
+<div class="grain"></div>
+<div id="labels"><div class="lg" id="lgData"></div><div class="lg" id="lgMatch"><div class="cocard" id="cocard" hidden><div class="eyebrow">Profil perusahaan · otomatis</div><div class="cc-n"></div><div class="cc-s"></div><div class="cc-j"></div><div class="cc-v"></div><div class="cc-r"></div></div></div><div class="lg" id="lgVisi"></div><div class="lg" id="lgTeam"></div><div class="lg" id="lgFlow"></div><div class="lg" id="lgAdv"></div><div class="lg" id="lgBud"></div><div class="lg" id="lgLed"></div><div class="lg" id="lgVen"></div></div>
+<div class="cursor" id="cursor"></div>
+
+<header class="top">
+  <button class="brand" id="brandBtn" aria-label="Kembali ke beranda">
+    <span class="word">LUM<i>I</i>NA</span>
+    <span class="tag">AI Talent Matching &amp; Social Impact Network</span>
+  </button>
+  <div class="chips">
+    <span class="chip keep"><span class="dot"></span>Gratis 100% untuk pencari kerja</span>
+    <span class="chip">Data terenkripsi · UU PDP 27/2022</span>
+  </div>
+</header>
+
+<nav class="rail" id="rail" aria-label="Bagian"></nav>
+
+<!-- 01 HOME -->
+<section class="hero" data-ch="0">
+  <div class="eyebrow">Konsep untuk Instellar Impact · AI untuk dampak sosial</div>
+  <h1>Setiap cahaya di sini adalah <em>seribu orang</em> yang sedang mencari kerja.</h1>
+  <p>Per Februari 2026, BPS mencatat 7,24 juta penganggur di Indonesia. Lumina mempertemukan mereka dengan perusahaan lewat AI yang cepat dan adil, gratis bagi pencari kerja, lalu mengelola dana sosial untuk riset dan bantuan bagi sesama.</p>
+  <div class="cta">
+    <button class="btn gold" data-go="3">Coba AI Matching</button>
+    <button class="btn" data-go="8">Lihat cara kerjanya</button>
+    <button class="btn" data-go="1">Data 2016–2026</button>
+  </div>
+  <div class="stats">
+    <div class="stat"><b>7,24 jt</b><span>penganggur · Feb 2026 (BPS)</span></div>
+    <div class="stat"><b>79.302</b><span>pekerja kena PHK · Jan–Nov 2025</span></div>
+    <div class="stat"><b>Rp 0</b><span>biaya bagi pencari kerja</span></div>
+  </div>
+  <div class="legend-dots">7.240 titik · 1 titik = 1.000 orang · klik inti emas untuk menyalakannya</div>
+</section>
+
+<!-- 02 DATA -->
+<aside class="panel" data-ch="1" aria-label="Data pengangguran">
+  <div class="eyebrow">Badan Pusat Statistik · Sakernas</div>
+  <h2>Pengangguran terbuka di Indonesia, 2016–2026</h2>
+  <p class="lede">Arahkan kursor ke batang 3D atau pilih tahun. Seret latar untuk memutar grafik.</p>
+  <div class="seg" role="group" aria-label="Satuan">
+    <button id="modeJml" aria-pressed="true">Jumlah orang</button>
+    <button id="modeTpt" aria-pressed="false">TPT (%)</button>
+  </div>
+  <div class="readout"><span class="big" id="roVal">7,24</span><span class="unit" id="roUnit">juta orang</span></div>
+  <div class="ro-per" id="roPer">FEBRUARI 2026</div>
+  <p class="ro-note" id="roNote"></p>
+  <div class="years" id="years"></div>
+  <h3>Yang terlihat dari 10 tahun data</h3>
+  <div class="insight">
+    <div><b>Jumlahnya hampir tidak bergerak.</b> Agustus 2016 ada 7,03 juta penganggur; Februari 2026 masih 7,24 juta. TPT turun karena angkatan kerja bertambah, bukan karena penganggurnya berkurang banyak.</div>
+    <div><b>Pandemi 2020 menjadi puncaknya:</b> 9,77 juta orang (TPT 7,07%). Butuh empat tahun untuk kembali ke bawah 7,5 juta.</div>
+    <div><b>Kualitas kerja ikut tertekan.</b> Porsi pekerja formal turun ke 40,58% pada Februari 2026.</div>
+  </div>
+  <div class="rule"></div>
+  <details class="src">
+    <summary>Sumber dan catatan metode</summary>
+    <p class="small" style="margin-top:8px">Angka 2016–2025 adalah hasil Sakernas Agustus. Angka 2026 memakai Sakernas Februari 2026 (rilis 5 Mei 2026), sehingga perbandingan dengan Agustus dipengaruhi musim.</p>
+    <ul>
+      <li><a href="https://www.bps.go.id/en/pressrelease/2016/11/07/1230/august-2016---unemployment-rate-5-61-percent.html" target="_blank" rel="noopener">BPS · Agustus 2016: TPT 5,61%</a></li>
+      <li><a href="https://www.bps.go.id/pressrelease/2017/11/06/1377/agustus-2017-tingkat-pengangguran-terbuka--tpt--sebesar-5-50-persen.html" target="_blank" rel="noopener">BPS · Agustus 2017: TPT 5,50%</a></li>
+      <li><a href="https://wartaekonomi.co.id/read202982/bps-catat-ada-tujuh-juta-pengangguran" target="_blank" rel="noopener">Warta Ekonomi · Agustus 2018 (BPS)</a></li>
+      <li><a href="https://economy.okezone.com/read/2019/11/05/20/2126021/pengangguran-naik-50-000-orang-di-agustus-2019" target="_blank" rel="noopener">Okezone · Agustus 2019 (BPS)</a></li>
+      <li><a href="https://pusatdata.kontan.co.id/infografik/156/Tingkat-Pengangguran-TerbukaIndonesia-10-Tahun-Terakhir" target="_blank" rel="noopener">Kontan Pusat Data · TPT 10 tahun (2020–2024)</a></li>
+      <li><a href="https://www.cnnindonesia.com/ekonomi/20251105122204-532-1292137/data-bps-746-juta-warga-ri-menganggur-per-agustus-2025" target="_blank" rel="noopener">CNN Indonesia · Agustus 2025: 7,46 juta</a></li>
+      <li><a href="https://ekonomi.bisnis.com/read/20260505/12/1971417/bps-tingkat-pengangguran-terbuka-tpt-468-pada-februari-2026" target="_blank" rel="noopener">Bisnis.com · Februari 2026: TPT 4,68%</a></li>
+      <li><a href="https://nasional.kontan.co.id/news/bps-pengangguran-turun-jadi-724-juta-orang-proporsi-pekerja-formal-turun-4058" target="_blank" rel="noopener">Kontan · pekerja formal 40,58%</a></li>
+    </ul>
+  </details>
+</aside>
+
+<!-- 03 NEWS -->
+<div class="ring-wrap" id="ringWrap" data-ch="2"><div class="ring" id="ring"></div></div>
+<aside class="panel" data-ch="2" aria-label="Suara warga">
+  <div class="eyebrow">Suara warga · berita terverifikasi</div>
+  <h2 id="nwTitle"></h2>
+  <div class="ro-per" id="nwDate"></div>
+  <p class="lede" id="nwBody" style="margin-top:12px"></p>
+  <div class="why"><b>Jawaban Lumina</b><span id="nwWhy"></span></div>
+  <h3>Sumber</h3>
+  <ul class="src" id="nwSrc" style="padding-left:16px;display:grid;gap:4px;margin:0"></ul>
+  <div class="navrow">
+    <button class="iconbtn" id="nwPrev" aria-label="Berita sebelumnya">←</button>
+    <button class="iconbtn" id="nwNext" aria-label="Berita berikutnya">→</button>
+    <span class="count" id="nwCount"></span>
+  </div>
+  <p class="small" style="margin-top:12px">Seret cincin 3D atau klik kartu untuk membuka berita lain.</p>
+</aside>
+
+<!-- 04 MATCH -->
+<aside class="panel" data-ch="3" aria-label="AI Matching">
+  <div class="eyebrow">Lumina AI Engine · demo langsung</div>
+  <h2>Cocokkan dalam hitungan detik</h2>
+  <div class="seg" role="group" aria-label="Peran">
+    <button id="roleSeeker" aria-pressed="true">Saya pencari kerja</button>
+    <button id="roleCompany" aria-pressed="false">Saya perusahaan</button>
+  </div>
+  <div class="steps" id="steps">
+    <div><b>01</b>Kumpulkan lowongan</div>
+    <div><b>02</b>Bersihkan &amp; verifikasi</div>
+    <div><b>03</b>Pencocokan semantik</div>
+    <div><b>04</b>Rekomendasi</div>
+  </div>
+  <div id="seekerUI">
+    <h3>Sumber lowongan <span class="ex">rencana integrasi</span></h3>
+    <div class="skills" id="srcs"></div>
+    <h3>Keahlian kamu</h3>
+    <div class="skills" id="skills"></div>
+    <div class="field"><label for="city">Domisili</label><select id="city"></select>
+      <button class="btn gold" id="runSeeker">Cocokkan</button></div>
+  </div>
+  <div id="companyUI" hidden>
+    <h3>Posisi yang dibuka</h3>
+    <div class="field" style="margin-top:0"><select id="roleSel" aria-label="Posisi"></select>
+      <button class="btn gold" id="runCompany">Temukan kandidat</button></div>
+    <p class="small" style="margin-top:10px">Kandidat tampil tanpa nama, foto, usia, atau agama. Identitas hanya terbuka bila kandidat menyetujui permintaanmu.</p>
+    <p class="small">Posting sekali dari Lumina, lalu tayang juga di Karirhub dan portal mitra yang sudah bekerja sama.</p>
+  </div>
+  <div class="ingest" id="ingest" aria-live="polite"></div>
+  <h3 id="resHead">Rekomendasi teratas <span class="ex">data contoh</span></h3>
+  <div class="results" id="results"></div>
+  <p class="small" id="matchTime" style="margin-top:10px"></p>
+  <details class="src" style="margin-top:14px">
+    <summary>Bagaimana sistem ini bekerja</summary>
+    <ol class="how">
+      <li><b>Kumpulkan.</b> Lowongan masuk dari tiga jalur: perusahaan memasang langsung di Lumina, integrasi dengan Karirhub Kemnaker (yang sudah terhubung dengan Glints, JobStreet, Kalibrr, dan KitaLulus), serta kerja sama API resmi dengan tiap portal. Tidak ada scraping tanpa izin.</li>
+      <li><b>Bersihkan.</b> Lowongan yang sama di beberapa portal digabung menjadi satu, lalu judul, gaji, lokasi, dan keahlian diseragamkan.</li>
+      <li><b>Verifikasi.</b> Model mendeteksi lowongan palsu, misalnya yang meminta biaya pelatihan, seragam, atau deposit. Perusahaan diverifikasi lewat NIB atau data resmi.</li>
+      <li><b>Lengkapi profil perusahaan.</b> Nama perusahaan dicocokkan otomatis dengan NIB di OSS, data badan hukum PT, CV, atau koperasi, status kepesertaan BPJS Ketenagakerjaan, dan izin sektor seperti OJK. Hasilnya menjadi profil: bentuk usaha, sektor, tahun berdiri, ukuran, lokasi, gaji, fasilitas, serta rekam jejak dan ulasan karyawan di Lumina. Kalau datanya tidak cocok, lowongan ditahan untuk ditinjau manusia.</li>
+      <li><b>Cocokkan.</b> CV dan lowongan diubah menjadi vektor makna (embedding) agar "staf gudang" dan "admin logistik" dikenali mirip. Data identitas tidak ikut dinilai.</li>
+      <li><b>Rekomendasikan.</b> Skor diurutkan beserta alasannya dan celah keahlian yang bisa ditutup dengan beasiswa Dana Abadi.</li>
+      <li><b>Lamar.</b> Pencari kerja melamar di Lumina, atau diarahkan ke halaman asli di portal sumber. Bila API mitra mengizinkan, status lamaran ikut tersinkron.</li>
+    </ol>
+  </details>
+  <p class="small" style="margin-top:10px">Nama portal ditampilkan sebagai rencana integrasi. Belum ada kerja sama dengan portal mana pun, dan semua lowongan di demo ini fiktif.</p>
+</aside>
+
+<!-- 05 FUND -->
+<aside class="panel" data-ch="4" aria-label="Dana abadi sosial">
+  <div class="eyebrow">Social Endowment Fund</div>
+  <h2>Donasi boleh, tidak juga boleh</h2>
+  <p class="lede">Lumina tetap gratis untuk pencari kerja. Dana abadi bersumber dari lisensi B2B SaaS perusahaan dan donasi sukarela, lalu diinvestasikan. Yang dibelanjakan hanya imbal hasilnya, sehingga dana pokok terus bekerja.</p>
+  <h3>Alokasi portofolio (usulan)</h3>
+  <div class="alloc" id="alloc"></div>
+  <h3>Imbal hasil dipakai untuk</h3>
+  <div class="flow">
+    <div><b>70%</b>Program dukungan: kuota &amp; transport, beasiswa sertifikasi, bantuan darurat</div>
+    <span style="color:var(--gold)">+</span>
+    <div><b>30%</b>Riset &amp; pengembangan AI Lumina</div>
+  </div>
+  <h3>Tujuan dukungan</h3>
+  <div class="seg" role="group" aria-label="Tujuan dukungan">
+    <button id="pProg" aria-pressed="true">Program &amp; Dana Abadi</button>
+    <button id="pOps" aria-pressed="false">Sahabat Lumina · operasional</button>
+  </div>
+  <p class="small" id="purposeNote" style="margin-top:8px"></p>
+  <h3>Nyalakan cahaya (opsional)</h3>
+  <div class="amts" id="amts"></div>
+  <div class="field"><label for="amt">Nominal lain</label><input type="text" id="amt" inputmode="numeric" placeholder="Rp" style="width:130px"><button class="btn gold" id="donate">Nyalakan cahaya</button></div>
+  <p class="thanks" id="thanks" aria-live="polite"></p>
+  <p class="small">Prototipe: tidak ada pembayaran yang diproses. Alokasi ini rancangan konsep, bukan saran investasi; pengelolaan nyata perlu manajer investasi berizin OJK dan laporan publik berkala.</p>
+</aside>
+
+<!-- 06 VAULT -->
+<aside class="panel" data-ch="5" aria-label="Keamanan data">
+  <div class="eyebrow">Brankas data · lima lapis</div>
+  <h2>Data kamu milik kamu</h2>
+  <p class="lede">Setiap lapisan bola 3D adalah satu lapis perlindungan. Pilih lapisan untuk melihat cara kerjanya.</p>
+  <div class="layers" id="layers"></div>
+  <p class="pledge">Lumina tidak menjual data pribadi, kepada siapa pun.</p>
+</aside>
+
+<!-- 07 VISI & MISI -->
+<aside class="panel" data-ch="6" aria-label="Visi dan misi">
+  <div class="eyebrow">Visi &amp; misi</div>
+  <h2>Pekerjaan layak untuk setiap orang yang siap bekerja</h2>
+  <p class="lede"><b style="color:var(--champagne);font-weight:600">Visi.</b> Indonesia di mana setiap orang yang siap bekerja bisa menemukan pekerjaan layak dengan cepat, tanpa biaya dan tanpa diskriminasi, dan setiap keberhasilan ikut membiayai orang berikutnya.</p>
+  <h3>Lima misi · lima pilar cahaya</h3>
+  <div class="layers" id="misi"></div>
+  <h3>Target 5 tahun <span class="ex">usulan</span></h3>
+  <div class="kpis">
+    <div><b>1 jt</b><span>pencari kerja terdaftar</span></div>
+    <div><b>100 rb</b><span>penempatan kerja tercatat</span></div>
+    <div><b>10 rb</b><span>beasiswa sertifikasi</span></div>
+    <div><b>&lt; 48 jam</b><span>dari lamaran ke shortlist</span></div>
+  </div>
+  <p class="small" style="margin-top:12px">Target ini sasaran yang diusulkan untuk diuji dalam pilot di dua kota, bukan hasil yang sudah tercapai.</p>
+</aside>
+
+<!-- 08 TIM -->
+<aside class="panel" data-ch="7" aria-label="Tim yang dibutuhkan">
+  <div class="eyebrow">Tim yang dibutuhkan</div>
+  <h2>Siapa yang membangun Lumina</h2>
+  <div class="seg" role="group" aria-label="Fase">
+    <button id="ph1" aria-pressed="true">Fase 1 · MVP</button>
+    <button id="ph2" aria-pressed="false">Fase 2 · Skala nasional</button>
+  </div>
+  <div class="readout"><span class="big" id="tmTotal">0</span><span class="unit">orang</span></div>
+  <div class="ro-per" id="tmPer"></div>
+  <p class="small" style="margin-top:8px">Setiap gugus di 3D adalah satu divisi, dan setiap satelit kecil adalah satu orang. Pilih divisi untuk melihat perannya.</p>
+  <div class="divs" id="divs"></div>
+</aside>
+
+<!-- 09 ALUR BISNIS -->
+<aside class="panel" data-ch="8" aria-label="Alur bisnis">
+  <div class="eyebrow">Konsep bisnis · cara kerja</div>
+  <h2>Satu lingkaran: kerja, pendapatan, dampak</h2>
+  <div class="stepbox">
+    <div class="ro-per" id="stNo"></div>
+    <div class="st-t" id="stT"></div>
+    <p id="stD"></p>
+    <div class="navrow" style="margin-top:6px">
+      <button class="iconbtn" id="stPrev" aria-label="Langkah sebelumnya">←</button>
+      <button class="iconbtn" id="stPlay" aria-label="Jeda animasi">❚❚</button>
+      <button class="iconbtn" id="stNext" aria-label="Langkah berikutnya">→</button>
+      <div class="dots" id="stDots"></div>
+    </div>
+  </div>
+  <div class="legend">
+    <span><i style="background:var(--champagne)"></i>Data &amp; layanan</span>
+    <span><i style="background:var(--gold)"></i>Aliran dana</span>
+    <span><i style="background:var(--sage)"></i>Dampak</span>
+  </div>
+  <h3>Model pendapatan B2B <span class="ex">usulan harga</span></h3>
+  <div class="tiers">
+    <div><b>UMKM</b><span class="pr">Rp 0</span><span>3 lowongan aktif, pencocokan dasar</span></div>
+    <div><b>Growth</b><span class="pr">Rp 1,5 jt/bln</span><span>25 lowongan, shortlist AI, analitik rekrutmen</span></div>
+    <div><b>Enterprise</b><span class="pr">Kustom</span><span>Integrasi ATS &amp; API, SLA, laporan dampak ESG</span></div>
+  </div>
+  <h3>Kenapa berkelanjutan</h3>
+  <div class="insight">
+    <div><b>Pencari kerja tidak pernah membayar.</b> Biaya operasional ditanggung langganan perusahaan yang mendapat kandidat lebih cepat.</div>
+    <div><b>Pokok dana abadi tidak dibelanjakan.</b> Yang dipakai hanya imbal hasilnya, sehingga bantuan bisa berjalan bertahun-tahun.</div>
+    <div><b>Penerima bantuan bisa menjadi pemberi.</b> Alumni yang sudah bekerja diundang menjadi kontributor, sehingga lingkarannya terus membesar.</div>
+  </div>
+  <p class="small" style="margin-top:12px">Klik platform di 3D untuk melompat ke langkahnya. Seret latar untuk memutar diagram.</p>
+</aside>
+
+<!-- 10 PENASIHAT -->
+<aside class="panel" data-ch="9" aria-label="Penasihat dan mitra luar">
+  <div class="eyebrow">Di luar Lumina · dewan penasihat</div>
+  <h2>Suara dari luar yang menjaga arah</h2>
+  <p class="lede">Lumina mengundang kreator dan praktisi dari luar tim sebagai penasihat. Mereka memberi masukan, menguji produk, dan membantu menjangkau publik. Penasihat tidak memegang data pengguna dan tidak mengelola dana.</p>
+  <h3>Tujuh kursi penasihat</h3>
+  <div class="layers" id="advs"></div>
+  <h3>Aturan main</h3>
+  <div class="insight">
+    <div><b>Konflik kepentingan diumumkan.</b> Hubungan bisnis penasihat dengan perusahaan pengguna Lumina dicatat terbuka.</div>
+    <div><b>Konten berbayar diberi label.</b> Setiap konten promosi tentang Lumina ditandai jelas sebagai kerja sama.</div>
+    <div><b>Tidak ada rekomendasi produk investasi.</b> Penasihat keuangan tidak boleh menawarkan produk investasi tertentu kepada pengguna Lumina.</div>
+    <div><b>Masa jabatan satu tahun.</b> Bisa diperpanjang setelah evaluasi bersama.</div>
+  </div>
+  <p class="small" style="margin-top:12px">Nama penasihat diumumkan setelah ada kesepakatan. Saat ini belum ada pihak luar yang terafiliasi dengan Lumina.</p>
+</aside>
+
+<!-- ANGGARAN & BIAYA -->
+<aside class="panel" data-ch="11" aria-label="Anggaran dan biaya">
+  <div class="eyebrow">Anggaran &amp; biaya · proyeksi tahun pertama</div>
+  <h2>Ke mana setiap rupiah dipakai</h2>
+  <p class="lede">Aliran 3D menunjukkan asal dana, lembaga yang mengelolanya, dan penggunaannya. Lebar pita sebanding dengan nilainya. Arahkan kursor ke pita atau pilar.</p>
+  <div class="readout"><span class="big" id="bdVal">12,0</span><span class="unit" id="bdUnit">miliar rupiah</span></div>
+  <div class="ro-per" id="bdName">TOTAL ANGGARAN TAHUN PERTAMA</div>
+  <p class="ro-note" id="bdNote"></p>
+  <h3>Dua lembaga, dua kas terpisah</h3>
+  <div class="insight">
+    <div><b>PT Lumina</b> menjalankan teknologi dan menggaji tim. Dananya dari lisensi B2B, hibah dan pendanaan awal, serta Sahabat Lumina.</div>
+    <div><b>Yayasan Lumina</b> menghimpun donasi dengan izin PUB dari Kemensos, mengelola Dana Abadi, dan menyalurkan program. Biaya penghimpunan paling banyak 10% sesuai PP 29/1980.</div>
+    <div><b>Gaji tim tidak diambil dari donasi program.</b> Masyarakat yang ingin ikut membiayai operasional bisa lewat Sahabat Lumina, yang dicatat terpisah.</div>
+  </div>
+  <h3>Rincian biaya PT Lumina</h3>
+  <div class="ctable" id="ctPT"></div>
+  <h3>Penggunaan dana Yayasan Lumina</h3>
+  <div class="ctable" id="ctYY"></div>
+  <p class="small" style="margin-top:12px">Angka dalam miliar rupiah, proyeksi usulan untuk tahun pertama (Fase 1, 28 orang). Perlu divalidasi dengan rencana keuangan rinci.</p>
+</aside>
+
+<!-- JEJAK DANA · BLOCKCHAIN -->
+<aside class="panel" data-ch="12" aria-label="Jejak dana di blockchain">
+  <div class="eyebrow">Jejak Dana · ledger blockchain publik</div>
+  <h2>Pantau setiap rupiah bergerak</h2>
+  <p class="lede">Setiap mutasi Dana Abadi dicatat sebagai transaksi di blockchain publik. Begitu masuk blok, transaksi disebarkan ke 12 node pemantau independen, dan penyaluran program menyebar ke penerima di 38 provinsi. Catatannya tidak bisa diubah atau dihapus.</p>
+  <div class="ledstats">
+    <div><b id="lsBlock">#0</b>blok terbaru</div>
+    <div><b id="lsTx">0</b>transaksi tercatat</div>
+    <div><b id="lsIn">Rp 0</b>donasi masuk</div>
+  </div>
+  <h3>Lacak donasimu</h3>
+  <div class="field" style="margin-top:0"><input type="text" id="trk" value="LMN-DEMO" aria-label="Kode tanda terima" style="width:150px" autocomplete="off"><button class="btn gold" id="trkBtn">Lacak</button></div>
+  <ol class="trail" id="trail"></ol>
+  <h3>Transaksi terbaru <span class="ex">simulasi langsung</span></h3>
+  <div class="feed" id="feed"></div>
+  <h3>Blok dipilih</h3>
+  <div class="blockinfo" id="blk"></div>
+  <details class="src" style="margin-top:14px">
+    <summary>Bagaimana blockchain dipakai di Lumina</summary>
+    <ol class="how">
+      <li><b>Rupiah tetap di bank kustodian.</b> Yang dicatat di blockchain adalah bukti setiap mutasi: jumlah, asal, tujuan, waktu, dan hash dokumen pendukungnya.</li>
+      <li><b>Porsi Bitcoin bisa dicek langsung</b> lewat alamat dompet publik yayasan. Aset kripto dibeli lewat pedagang aset kripto yang diawasi OJK.</li>
+      <li><b>Tanpa data pribadi.</b> Data di blockchain tidak bisa dihapus, jadi nama dan nomor rekening tidak pernah ditulis di sana, sejalan dengan UU PDP. Donatur cukup memakai kode tanda terima.</li>
+      <li><b>Disebarkan ke banyak pemantau.</b> Salinan ledger disimpan node independen seperti auditor, kampus, media, dan LSM antikorupsi, sehingga tidak ada satu pihak pun, termasuk Lumina, yang bisa mengubah catatan sendirian.</li>
+      <li><b>Penyaluran sampai ke penerima.</b> Dana program dicatat sampai ke tingkat penerima dengan ID anonim per provinsi, jadi publik bisa melihat sebarannya tanpa melihat identitas siapa pun.</li>
+      <li><b>Dicocokkan dua arah.</b> Catatan blockchain dicocokkan dengan mutasi bank dan diaudit akuntan publik setiap tahun.</li>
+    </ol>
+  </details>
+  <p class="small" style="margin-top:10px">Transaksi, blok, dan hash di halaman ini simulasi. Belum ada dana atau blockchain yang berjalan.</p>
+</aside>
+
+<!-- LUMINA VENTURES -->
+<aside class="panel" data-ch="13" aria-label="Lumina Ventures">
+  <div class="eyebrow">Rencana berikutnya · peta jalan</div>
+  <h2>Lumina Ventures: dari pencari kerja menjadi pencipta kerja</h2>
+  <p class="lede">Sebagian pencari kerja sebenarnya punya bakat usaha. Lumina Ventures membina dan mendanai mereka. Usaha yang tumbuh lalu merekrut pencari kerja berikutnya lewat Lumina, sehingga lingkarannya membesar.</p>
+  <h3>Peta jalan · empat fase</h3>
+  <div class="layers" id="phases"></div>
+  <h3>Jalur calon pebisnis</h3>
+  <ol class="vpath">
+    <li><b>Kelas wirausaha</b><span>Gratis dan daring. Ide usaha divalidasi bersama mentor dari dewan penasihat.</span><em>Gratis</em></li>
+    <li><b>Inkubasi 3 bulan</b><span>Pendampingan mentor, ruang kerja bersama, dan akses ke pasar serta pemasok.</span><em>Gratis</em></li>
+    <li><b>Hibah modal awal</b><span>Untuk usaha mikro, tanpa ekuitas, dibiayai mitra CSR.</span><em>Rp 5–25 jt</em></li>
+    <li><b>Pendanaan pra-awal</b><span>Ekuitas atau bagi hasil pendapatan untuk usaha yang sudah terbukti laku.</span><em>Rp 100–500 jt</em></li>
+    <li><b>Urun dana publik</b><span>Masyarakat ikut mendanai usaha alumni lewat platform securities crowdfunding berizin OJK.</span><em>Bertahap</em></li>
+  </ol>
+  <h3>Aturan main</h3>
+  <div class="insight">
+    <div><b>Dana Ventures terpisah dari donasi.</b> Donasi publik dan pokok Dana Abadi tidak dipakai untuk investasi berisiko di usaha rintisan. Sumbernya dana kelolaan dari investor dampak, korporasi, dan lembaga.</div>
+    <div><b>Berizin.</b> Dijalankan sebagai Perusahaan Modal Ventura berizin OJK, atau bermitra dengan modal ventura yang sudah berizin.</div>
+    <div><b>Komitmen balik.</b> Usaha binaan merekrut lewat Lumina, dan sebagian hasil divestasi dikembalikan ke Dana Abadi.</div>
+    <div><b>Data dipakai dengan izin.</b> Program hanya ditawarkan ke pengguna yang setuju profilnya dipakai untuk mencari bakat wirausaha.</div>
+  </div>
+  <h3>Target 5 tahun Ventures <span class="ex">usulan</span></h3>
+  <div class="kpis">
+    <div><b>100</b><span>usaha binaan didanai</span></div>
+    <div><b>2.000</b><span>lapangan kerja baru</span></div>
+    <div><b>Rp 50 M</b><span>dana kelolaan Ventures</span></div>
+    <div><b>50%</b><span>usaha dari luar Jawa</span></div>
+  </div>
+  <p class="small" style="margin-top:12px">Di 3D, benih cahaya dari Fase 3 terbang menjadi pohon usaha di Fase 4, lalu percikan lowongan kerja turun kembali ke pencari kerja di Fase 1.</p>
+</aside>
+
+<!-- 11 FINALE -->
+<section class="finale" data-ch="10">
+  <div class="eyebrow">AI Talent Matching &amp; Social Impact Network</div>
+  <p>Kesempatan gratis hari ini. Indonesia yang lebih inklusif dan sejahtera esok hari.</p>
+  <div class="cta" style="justify-content:center">
+    <button class="btn gold" data-go="3">Coba AI Matching</button>
+    <button class="btn" data-go="0">Kembali ke awal</button>
+  </div>
+</section>
+
+<div class="hint" id="hint">GULIR ATAU ← → UNTUK BERPINDAH · SERET UNTUK MEMUTAR 3D</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
